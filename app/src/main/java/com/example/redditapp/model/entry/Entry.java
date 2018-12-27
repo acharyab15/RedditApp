@@ -12,7 +12,7 @@ public class Entry implements Serializable {
     private String updated;
 
     @Element(required=false, name = "author")
-    private String author;
+    private Author author;
 
     @Element(name = "id")
     private String id;
@@ -26,7 +26,7 @@ public class Entry implements Serializable {
     public Entry() {
     }
 
-    public Entry(String updated, String author, String content, String title) {
+    public Entry(String updated, Author author, String content, String title) {
         this.updated = updated;
         this.author = author;
         this.content = content;
@@ -41,11 +41,19 @@ public class Entry implements Serializable {
         this.id = id;
     }
 
-    public String getAuthor() {
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
