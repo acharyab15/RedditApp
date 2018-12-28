@@ -40,4 +40,7 @@ dependencies {
 
     //Universal Image Loader
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    //Design library needed to coordinator layout
+    implementation 'com.android.support:design:28.0.0'
 }
