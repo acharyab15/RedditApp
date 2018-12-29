@@ -19,6 +19,7 @@ import com.example.redditapp.ExtractXML;
 import com.example.redditapp.FeedAPI;
 import com.example.redditapp.R;
 import com.example.redditapp.URLS;
+import com.example.redditapp.WebViewActivity;
 import com.example.redditapp.model.Feed;
 import com.example.redditapp.model.entry.Entry;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -171,6 +172,16 @@ public class CommentsActivity extends AppCompatActivity {
         }catch (ArrayIndexOutOfBoundsException e){
             Log.d(TAG, "initPost: ArrayIndexOutOfBoundsException: " + e.getMessage());
         }
+
+        thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Opening URL in webview: " + postURL);
+                Intent intent = new Intent(CommentsActivity.this, WebViewActivity.class);
+                intent.putExtra("url", postURL);
+                startActivity(intent);
+            }
+        });
     }
 
     private void displayImage(String imageURL, ImageView imageView, final ProgressBar progressBar) {
