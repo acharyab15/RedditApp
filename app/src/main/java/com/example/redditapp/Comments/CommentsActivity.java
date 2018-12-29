@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.redditapp.ExtractXML;
 import com.example.redditapp.FeedAPI;
 import com.example.redditapp.R;
 import com.example.redditapp.URLS;
@@ -27,6 +28,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,16 +39,18 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class CommentsActivity extends AppCompatActivity {
 
-    private int defaultImage;
-
-    private String currentFeed;
-
     private static final String TAG = "CommentsActivity";
     private static String postURL;
     private static String postThumbnailURL;
     private static String postTitle;
     private static String postAuthor;
     private static String postUpdated;
+
+    private int defaultImage;
+
+    private String currentFeed;
+
+    private ArrayList<Comment> mComments;
 
 
     @Override
@@ -80,7 +84,9 @@ public class CommentsActivity extends AppCompatActivity {
 
                 List<Entry> entries = response.body().getEntries();
                 for (int i=0; i<entries.size(); i++) {
-                    Log.d(TAG, "onResponse: entry: " + entries.get(i).toString());
+                    ExtractXML extract = new ExtractXML(entries.get(i).getContent(), "<div class=\"md\"><p>", "</p");
+                    extract.start();
+
                 }
             }
 
