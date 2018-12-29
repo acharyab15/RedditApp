@@ -1,8 +1,7 @@
-package com.example.redditapp;
+package com.example.redditapp.Comments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.redditapp.FeedAPI;
+import com.example.redditapp.R;
+import com.example.redditapp.URLS;
+import com.example.redditapp.model.Feed;
+import com.example.redditapp.model.entry.Entry;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,11 +27,19 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import org.w3c.dom.Text;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class CommentsActivity extends AppCompatActivity {
 
     private int defaultImage;
+
+    private String currentFeed;
 
     private static final String TAG = "CommentsActivity";
     private static String postURL;
@@ -45,6 +58,38 @@ public class CommentsActivity extends AppCompatActivity {
         setupImageLoader();
 
         initPost();
+
+        init();
+
+    }
+
+    private void init() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLS.BASE_URL)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build();
+
+        FeedAPI feedAPI = retrofit.create(FeedAPI.class);
+
+        Call<Feed> call = feedAPI.getFeed(currentFeed);
+
+        call.enqueue(new Callback<Feed>() {
+            @Override
+            public void onResponse(Call<Feed> call, Response<Feed> response) {
+                Log.d(TAG, "onResponse: Server Response: " + response.toString());
+
+                List<Entry> entries = response.body().getEntries();
+                for (int i=0; i<entries.size(); i++) {
+                    Log.d(TAG, "onResponse: entry: " + entries.get(i).toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Feed> call, Throwable t) {
+                Log.d(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
+                Toast.makeText(CommentsActivity.this, "An Error occured", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initPost() {
@@ -66,6 +111,16 @@ public class CommentsActivity extends AppCompatActivity {
         author.setText(postAuthor);
         updated.setText(postUpdated);
         displayImage(postThumbnailURL, thumbnail, progressBar);
+
+        // NOTE: NSFW posts will cause an error. We can catch it with ArrayIndexOutOfBoundsException
+        try{
+            String[] splitURL = postURL.split(URLS.BASE_URL);
+            // get the rest of the url after the base_url
+            currentFeed = splitURL[1];
+            Log.d(TAG, "initPost: current feed: " + currentFeed);
+        }catch (ArrayIndexOutOfBoundsException e){
+            Log.d(TAG, "initPost: ArrayIndexOutOfBoundsException: " + e.getMessage());
+        }
     }
 
     private void displayImage(String imageURL, ImageView imageView, final ProgressBar progressBar) {
