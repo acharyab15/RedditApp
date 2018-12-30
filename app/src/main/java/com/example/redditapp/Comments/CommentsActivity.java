@@ -2,8 +2,10 @@ package com.example.redditapp.Comments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +57,11 @@ public class CommentsActivity extends AppCompatActivity {
     private static String postTitle;
     private static String postAuthor;
     private static String postUpdated;
+    private static String postId;
+
+    private String modHash;
+    private String cookie;
+    private String username;
 
     private int defaultImage;
 
@@ -75,6 +82,8 @@ public class CommentsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Started.");
 
         setupToolbar();
+
+        getSessionParams();
 
         mProgressBar.setVisibility(View.VISIBLE);
 
@@ -159,7 +168,7 @@ public class CommentsActivity extends AppCompatActivity {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        getUserComment();
+                        getUserComment(postId);
                     }
                 });
 
@@ -186,6 +195,7 @@ public class CommentsActivity extends AppCompatActivity {
         postThumbnailURL = ((Intent) incomingIntent).getStringExtra("@string/post_thumbnail");
         postAuthor = ((Intent) incomingIntent).getStringExtra("@string/post_author");
         postUpdated = ((Intent) incomingIntent).getStringExtra("@string/post_updated");
+        postId = ((Intent) incomingIntent).getStringExtra("@string/post_id");
 
         TextView title = (TextView) findViewById(R.id.postTitle);
         TextView author = (TextView) findViewById(R.id.postAuthor);
@@ -213,7 +223,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: reply clicked.");
-                getUserComment();
+                getUserComment(postId);
             }
         });
 
@@ -228,7 +238,7 @@ public class CommentsActivity extends AppCompatActivity {
         });
     }
 
-    private void getUserComment() {
+    private void getUserComment(String post_id) {
         final Dialog dialog = new Dialog(CommentsActivity.this);
         dialog.setTitle("dialog");
         dialog.setContentView(R.layout.comment_input_dialog);
@@ -238,6 +248,38 @@ public class CommentsActivity extends AppCompatActivity {
 
         dialog.getWindow().setLayout(width, height);
         dialog.show();
+
+        Button btnPostComment = (Button) dialog.findViewById(R.id.btnPostComment);
+        final EditText comment = (EditText) dialog.findViewById(R.id.dialogComment);
+
+        btnPostComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Attempting to post comment.");
+
+                // post comment stuff for retrofit
+            }
+        });
+
+
+    }
+
+    /**
+     * get the session params stored in memory from logging in
+     */
+
+    private void getSessionParams() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CommentsActivity.this);
+
+        username = preferences.getString("@string/SessionUsername", "");
+        modHash = preferences.getString("@string/SessionModHash", "");
+        cookie = preferences.getString("@string/SessionCookie", "");
+
+        Log.d(TAG, "getSessionParams: Retrieving session variables: \n" +
+                "username: " + username + "\n" +
+                "modHash: " + modHash + "\n" +
+                "cookie: " + cookie + "\n"
+        );
 
     }
 
@@ -303,4 +345,14 @@ public class CommentsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.navigation_menu, menu);
         return true;
     }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.d(TAG, "onPostResume: Resuming activity");
+        getSessionParams();
+    }
+
+
 }

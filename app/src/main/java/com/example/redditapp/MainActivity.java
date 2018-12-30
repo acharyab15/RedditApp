@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
                                 entries.get(i).getAuthor().getName(),
                                 entries.get(i).getUpdated(),
                                 postContent.get(0),
-                                postContent.get(lastPosition)
+                                postContent.get(lastPosition),
+                                entries.get(i).getId()
                         ));
                     }catch (NullPointerException e) {
                         posts.add(new Post(
@@ -148,7 +149,8 @@ public class MainActivity extends AppCompatActivity {
                                 "None",
                                 entries.get(i).getUpdated(),
                                 postContent.get(0),
-                                postContent.get(lastPosition)
+                                postContent.get(lastPosition),
+                                entries.get(i).getId()
                         ));
                         Log.e(TAG, "onResponse: NullPointerEXception: " + e.getMessage());
                     }
@@ -161,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
 //                            "ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n " +
 //                            "Title: " + posts.get(j).getTitle() + "\n " +
 //                            "Author: " + posts.get(j).getAuthor() + "\n " +
-//                            "Updated: " + posts.get(j).getDateUpdated() + "\n");
+//                            "Updated: " + posts.get(j).getDateUpdated() + "\n"
+//                            "Post Id: " + posts.get(j).getId() + "\n");
 //                }
 
                 ListView listView = (ListView) findViewById(R.id.listView);
@@ -179,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("@string/post_title", posts.get(position).getTitle());
                         intent.putExtra("@string/post_author", posts.get(position).getAuthor());
                         intent.putExtra("@string/post_updated", posts.get(position).getDateUpdated());
+                        intent.putExtra("@string/post_id", posts.get(position).getId());
+
                         startActivity(intent);
                     }
                 });

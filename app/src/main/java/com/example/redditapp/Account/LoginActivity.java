@@ -112,6 +112,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Save session params once login is successful
+     * @param username
+     * @param modHash
+     * @param cookie
+     */
     private void setSessionParams(String username, String modHash, String cookie) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         SharedPreferences.Editor editor = preferences.edit();

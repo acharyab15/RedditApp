@@ -6,13 +6,23 @@ public class Post {
     private String dateUpdated;
     private String postURL;
     private String thumbnailURL;
+    private String id;
 
-    public Post(String title, String author, String dateUpdated, String postURL, String thumnailURL) {
+    public Post(String title, String author, String dateUpdated, String postURL, String thumbnailURL, String id) {
         this.title = title;
         this.author = author;
         this.dateUpdated = dateUpdated;
         this.postURL = postURL;
-        this.thumbnailURL = thumnailURL;
+        this.thumbnailURL = thumbnailURL;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -51,7 +61,7 @@ public class Post {
         return thumbnailURL;
     }
 
-    public void setThumbnailURL(String thumnailURL) {
-        this.thumbnailURL = thumnailURL;
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
     }
 }
