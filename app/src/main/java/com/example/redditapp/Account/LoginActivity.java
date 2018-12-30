@@ -8,8 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.example.redditapp.Comments.CommentsActivity;
+import com.example.redditapp.FeedAPI;
 import com.example.redditapp.R;
+import com.example.redditapp.URLS;
+import com.example.redditapp.model.Feed;
+
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,9 +55,36 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(!username.equals("") && !password.equals("")) {
                     mProgressBar.setVisibility(View.VISIBLE);
-                    // method for signing in
+                    login(username, password);
                 }
             }
         });
+    }
+
+    private void login(String username, String password) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLS.LOGIN_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FeedAPI feedAPI = retrofit.create(FeedAPI.class);
+
+        HashMap<String, String> headerMap = new HashMap<>();
+        headerMap.put("Content-Type", "applciation/json");
+
+        Call<CheckLogin> call = feedAPI.signIn(headerMap, username, username, password, "json" );
+        call.enqueue(new Callback<CheckLogin>() {
+            @Override
+            public void onResponse(Call<CheckLogin> call, Response<CheckLogin> response) {
+                Log.d(TAG, "onResponse: Server Response: " + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<CheckLogin> call, Throwable t) {
+                Log.d(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
+                Toast.makeText(LoginActivity.this, "An Error occured", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
