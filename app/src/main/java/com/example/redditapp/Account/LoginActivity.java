@@ -1,6 +1,8 @@
 package com.example.redditapp.Account;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -61,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login(String username, String password) {
+    private void login(final String username, String password) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLS.LOGIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -76,7 +78,29 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<CheckLogin>() {
             @Override
             public void onResponse(Call<CheckLogin> call, Response<CheckLogin> response) {
-                Log.d(TAG, "onResponse: Server Response: " + response.toString());
+                try {
+                    Log.d(TAG, "onResponse: Server Response: " + response.toString());
+
+                    String modHash = response.body().getJson().getData().getModhash();
+                    String cookie = response.body().getJson().getData().getCookie();
+                    Log.d(TAG, "onResponse: modHash: " + modHash);
+                    Log.d(TAG, "onResponse: cookie: " + cookie);
+
+                    if(!modHash.equals("")) {
+                        setSessionParams(username, modHash, cookie);
+                        mProgressBar.setVisibility(View.GONE);
+                        mUsername.setText("");
+                        mPassword.setText("");
+                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                        // navigate back to previous activity
+                        finish();
+                    }
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "onResponse: NullPointerException: " + e.getMessage() );
+                }
+
+
             }
 
             @Override
@@ -86,5 +110,25 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setSessionParams(String username, String modHash, String cookie) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        Log.d(TAG, "setSessionParams: Storing session variables: \n" +
+                         "username: " + username + "\n" +
+                         "modHash: " + modHash + "\n" +
+                         "cookie: " + cookie + "\n"
+        );
+
+        editor.putString("@string/SessionUsername" , username);
+        editor.commit();
+
+        editor.putString("@string/SessionModHash" , modHash);
+        editor.commit();
+
+        editor.putString("@string/SessionCookie" , cookie);
+        editor.commit();
     }
 }

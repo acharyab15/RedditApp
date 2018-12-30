@@ -4,6 +4,8 @@
     <string name="post_thumbnail">post_thumbnail</string>
     <string name="post_author">post_author</string>
     <string name="post_updated">post_updated</string>
-
+    <string name="SessionUsername">com.example.redditapp.Account.SessionUsername</string>
+    <string name="SessionModHash">com.example.redditapp.Account.SessionModHash</string>
+    <string name="SessionCookie">com.example.redditapp.Account.SessionCookie</string>
 
 </resources>
