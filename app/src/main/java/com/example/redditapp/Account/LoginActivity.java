@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
         HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("Content-Type", "applciation/json");
+        headerMap.put("Content-Type", "application/json");
 
         Call<CheckLogin> call = feedAPI.signIn(headerMap, username, username, password, "json" );
         call.enqueue(new Callback<CheckLogin>() {
@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CheckLogin> call, Throwable t) {
+                mProgressBar.setVisibility(View.GONE);
                 Log.d(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
                 Toast.makeText(LoginActivity.this, "An Error occured", Toast.LENGTH_SHORT).show();
             }

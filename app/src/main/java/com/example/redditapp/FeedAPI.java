@@ -1,6 +1,7 @@
 package com.example.redditapp;
 
 import com.example.redditapp.Account.CheckLogin;
+import com.example.redditapp.Comments.CheckComment;
 import com.example.redditapp.model.Feed;
 
 import java.util.Map;
@@ -13,7 +14,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface FeedAPI {
-    String BASE_URL = "https://www.reddit.com/r/";
 
     // Non-static feed name
     @GET("{feed_name}/.rss")
@@ -30,5 +30,13 @@ public interface FeedAPI {
        @Query("user") String user,
        @Query("passwd") String password,
        @Query("api_type") String type
+    );
+
+    @POST("{comment}")
+    Call<CheckComment> submitComment(
+            @HeaderMap Map<String, String> headers,
+            @Path("comment") String comment,
+            @Query("parent") String parent,
+            @Query("amp;text") String text
     );
 }
