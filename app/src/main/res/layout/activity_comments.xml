@@ -16,7 +16,8 @@
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/toolbar_main">
+                android:id="@+id/toolbar_main"
+                android:background="@drawable/blue_border">
 
             </android.support.v7.widget.Toolbar>
 
@@ -28,6 +29,7 @@
             android:id="@+id/commentHeadingRelLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/black_border"
             android:layout_below="@id/relLayoutToolbar">
 
             <ImageView
@@ -48,7 +50,8 @@
                 android:textSize="8sp"
                 android:layout_alignParentRight="true"
                 android:layout_alignBottom="@+id/postThumbnail"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:background="@drawable/light_blue_rounded_button"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

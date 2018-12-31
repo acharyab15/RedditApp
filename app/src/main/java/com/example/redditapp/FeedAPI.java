@@ -34,9 +34,9 @@ public interface FeedAPI {
 
     @POST("{comment}")
     Call<CheckComment> submitComment(
-            @HeaderMap Map<String, String> headers,
-            @Path("comment") String comment,
-            @Query("parent") String parent,
-            @Query("amp;text") String text
+       @HeaderMap Map<String, String> headers,
+       @Path("comment") String comment,
+       @Query("parent") String parent,
+       @Query("amp;text") String text
     );
 }

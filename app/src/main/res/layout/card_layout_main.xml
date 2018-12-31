@@ -7,10 +7,6 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
     tools:context="com.example.redditapp.MainActivity">
 
 
@@ -21,7 +17,9 @@
         app:cardElevation="10dp"
         app:contentPaddingRight="10dp"
         app:contentPaddingLeft="10dp"
-        app:cardMaxElevation="15dp">
+        app:cardMaxElevation="15dp"
+        android:elevation="10dp"
+        android:background="@drawable/grey_border">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,6 +27,8 @@
 
 
             <ImageView
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:layout_margin="5dp"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -47,6 +47,7 @@
                     android:id="@+id/cardTitle"
                     android:gravity="center_vertical"
                     android:text="Card Title"
+                    android:textColor="@color/colorDarkGray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

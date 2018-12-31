@@ -41,6 +41,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -221,7 +222,7 @@ public class CommentsActivity extends AppCompatActivity {
         }catch (ArrayIndexOutOfBoundsException e){
             Log.d(TAG, "initPost: ArrayIndexOutOfBoundsException: " + e.getMessage());
         }
-        
+
         btnReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,8 +283,6 @@ public class CommentsActivity extends AppCompatActivity {
 
                 String theComment = comment.getText().toString();
                 Call<CheckComment> call = feedAPI.submitComment(headerMap, "comment", post_id, theComment);
-
-                Log.d(TAG, "onClick: Call: " + call.toString());
 
                 call.enqueue(new Callback<CheckComment>() {
                     @Override

@@ -3,6 +3,8 @@ package com.example.redditapp.Comments;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
+
 public class CheckComment {
     @SerializedName("success")
     @Expose
