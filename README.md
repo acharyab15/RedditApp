@@ -1,7 +1,9 @@
 An Android app that integrates with Reddit.com's open source API.
 ---
 
-<img class='header-img' src="Screenshot_1546476747.png" height=100></img>
+<img width="250" height="400" src="Screenshot_1546476747.png"></img>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img width="250" height="400" src="Screenshot_1546476757.png"></img>
 
 Some of the things this app does:
 
