@@ -13,3 +13,5 @@ Some of the things this app does:
 4. Viewing contents from Reddit like comments, posts and various subreddits.
 5. Use of multiple types of views (CardViews, Webviews), toolbars, menus etc.
 ---
+
+I did this as a part of [Mitch Tabian's](https://github.com/mitchtabian) [Reddit-RSS-App](https://github.com/mitchtabian/Reddit-RSS-App/blob/master/README.md) tutorial series. 
