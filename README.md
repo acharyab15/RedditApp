@@ -1,4 +1,6 @@
 An Android app that integrates with Reddit.com's open source API.
+---
+
 
 Some of the things this app does:
 
@@ -7,3 +9,4 @@ Some of the things this app does:
 3. Logging into a Reddit Account using session parameters.
 4. Viewing contents from Reddit like comments, posts and various subreddits.
 5. Use of multiple types of views (CardViews, Webviews), toolbars, menus etc.
+---
